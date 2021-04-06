@@ -1,0 +1,104 @@
+<!-- 
+<table border=1>
+  <thead>
+    <th> Name </th>
+    <th> Current Address </th>
+    <th> Permemnat Address </th>
+    <th> Mobile </th>
+    <th> Date of birth</th>
+    <th> Marital Status </th>
+    <th *ngFor="let field of edFields">
+      {{ field }}
+    </th>
+    <th> Experience/Fresher</th>
+    <th> Job experience</th>
+    <th> Language</th>
+  </thead>
+  <tbody *ngIf="UserData">
+    <td> {{UserData.name}}</td>
+    <td> {{UserData.cAddress}}</td>
+    <td> {{UserData.pAddress}}</td>
+    <td> {{UserData.Mobile}}</td>
+    <td> {{UserData.dob | date}}</td>
+    <td> {{UserData.MaritalStatus}}</td>
+    <div *ngFor="let edu of EducationDetails">
+      {{edu.course}}
+      {{edu.passingYear}}
+      {{edu.cpa}}
+      {{edu.university}}
+    </div>
+    </ /!-- <td> {{ EducationDetails[0].course}} </td>
+    <td> {{ EducationDetails[0].passingYear}} </td>
+    <td> {{ EducationDetails[0].cpa}} </td>
+    <td> {{ EducationDetails[0].university}} </td>
+    -//->
+    <td>
+      <tr *ngFor="let job of JobExperience">
+        <td> {{ job }}</td>
+      </tr>
+    </td>
+    <! //-- <td>azsd</td> -//->
+      <td> {{UserData.experienceFresher}}</td>
+      <td> </td>
+  </tbody>
+</table>
+-->
+<div>
+  <div>
+    Id : {{ UserData?._id }}
+  </div>
+  <div>
+    <p> Name : {{ UserData?.name }} </p>
+  </div>
+  <div>
+    <p> Current Address : {{ UserData?.cAddress }} </p>
+  </div>
+  <div>
+    <p> Permemnat Address : {{ UserData?.pAddress }} </p>
+  </div>
+  <div>
+    <p> Mobile : {{ UserData?.Mobile }}</p>
+  </div>
+  <div>
+    <p> Date of birth : {{ UserData?.dob }} </p>
+  </div>
+  <div>
+    <p> Marital Status : {{ UserData?.MaritalStatus }} </p>
+  </div>
+  <div>
+    Gender : {{ UserData?.gender }}
+  </div>
+  <div>
+    <p><strong> EducationDetails : </strong></p>
+    <div *ngFor="let ed of EducationDetails;">
+      <div *ngFor="let fields of keys(ed);">
+        {{ fields }} : {{ ed[fields] }}
+      </div>
+      <hr>
+    </div>
+  </div>
+  <div *ngIf="JobExperience">
+    <p><strong> Experience/Fresher :</strong></p>
+    <div *ngFor="let job of JobExperience">
+      <div *ngFor="let k of keys(job);">
+        {{ k }} : {{ job[k] }}
+      </div>
+      <hr>
+    </div>
+  </div>
+  <div>
+    <p><strong> Language :</strong></p>
+    <div *ngFor="let language of UserData?.languages;">
+      {{ language }}
+    </div>
+    <div>
+      PaymentID: {{ UserData?.transactionId }}
+    </div>
+    <div *ngIf="cvfile; else noCv">
+      <button (click)="cvLogic();"> Download CV </button>
+    </div>
+    <ng-template #noCv>
+      <strong>No cv is uploaded </strong>
+    </ng-template>
+  </div>
+</div>

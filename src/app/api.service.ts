@@ -51,11 +51,22 @@ export class ApiService {
     let url = window.URL.createObjectURL(blob);
     let anchor = document.createElement("a");
     anchor.download = filename;
+    console.log(filename);
     anchor.href = url;
     anchor.click();
   }
 
   login(user) {
     return this.http.post<any>(`${this.url}/api/users/login`, user);
+  }
+
+  deleteCandidate(id) {
+    console.log("calling delete service");
+    const headers = new HttpHeaders(
+      {
+        'authorization': localStorage.getItem('token')
+      }
+    );
+    return this.http.delete<any>(`${this.url}/api/candidate/${id}`, {headers});
   }
 }

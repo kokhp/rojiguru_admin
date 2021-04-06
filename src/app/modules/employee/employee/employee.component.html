@@ -2,17 +2,23 @@
   <h2 mat-dialog-title>Are you sure want to delete this record ?</h2>
   <mat-dialog-content class="text">
     <mat-form-field class="example-full-width">
-
+      <input matInput>
+      <mat-dialog-actions>
+        <button mat-flat-button color="primary" (click)="confirmDelete(row)">Yes</button>
+        <button mat-raised-button color="warn" (click)="onCencle()">NO</button>
+      </mat-dialog-actions>
     </mat-form-field>
   </mat-dialog-content>
+  <!--
   <mat-dialog-actions>
     <button mat-flat-button color="primary" (click)="confirmDelete(row)">Yes</button>
     <button mat-raised-button color="warn" (click)="onCencle()">NO</button>
   </mat-dialog-actions>
+  -->
 </ng-template>
 <div fxLayout fxLayoutAlign="center center">
   <mat-form-field fxFlex="40%">
-    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
 </div>
 <ng-template #employeeDialog>
@@ -190,4 +196,4 @@
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
-  </div>
+</div>

@@ -1,3 +1,4 @@
+<!--
 <div>
     <form method="POST" [formGroup]="loginForm">
         <h2>Login Form</h2>
@@ -13,4 +14,22 @@
         <br>
         <button type="submit" (click)="onLoginClick()">Login</button>
     </form>
+</div>
+-->
+<div class="login-section">
+    <div class="main-login-part">
+        <form class="user-login-form"method="POST" [formGroup]="loginForm"> 
+            <div>
+                <label for="edit-name" class="js-form-required form-required">Username</label>
+                <input type="text" formControlName="email">
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" formControlName="password">
+            </div>
+            <div class="submit-button">
+                <button type="submit" (click)="onLoginClick()">Login</button>
+            </div>
+        </form>
+    </div>
 </div>

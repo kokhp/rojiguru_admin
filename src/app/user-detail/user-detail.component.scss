@@ -1,0 +1,67 @@
+.name p {
+    color: #40424a;
+    margin: 0;
+    font-weight: 600;
+    font-size: 3em;
+    text-transform: uppercase;
+    line-height: normal;
+}
+.id {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 0;
+}
+.main-heading {
+    margin-bottom: 30px;
+    font-size: 48px;
+    color: #40424a;
+    font-weight: 600;
+    margin-top: 80px;
+}
+.main-heading:after {
+    content: '';
+    display: block;
+    width: 10%;
+    height: 2px;
+    background: #bd5d38;
+    margin: 1rem 0;
+}
+.hero-info ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.hero-info ul li {
+    font-size: 24px;
+    color: #808181;
+    margin-bottom: 15px;
+    display: flex;
+}
+.hero-info ul li span {
+    color: #40424a;
+    display: inline-block;
+    min-width: 220px;
+}
+.resume-section-content {
+    width: 100%;
+}
+.edu-titele {
+    font-weight: 700;
+    line-height: 1.2;
+    color: #343a40;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+.subheading {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #6c757d;
+}
+.edu-detail{
+    color: #6c757d;
+}
+.text-primary {
+    color: #bd5d38 !important;
+}

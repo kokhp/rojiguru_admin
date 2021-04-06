@@ -43,6 +43,77 @@
   </tbody>
 </table>
 -->
+
+<div class="container">
+
+  <div class="name">
+    <p>{{ UserData?.name }} </p>
+  </div>
+  <div class="id">
+    {{ UserData?._id }}
+  </div>
+  <div class="hero-info">
+    <h2 class="main-heading">General Info</h2>
+    <ul>
+      <li><span>Name</span> {{ UserData?.name }}</li>
+      <li><span>Date of Birth</span> {{ UserData?.dob }}</li>
+      <li><span>Current Address</span> {{ UserData?.cAddress }}</li>
+      <li><span>Present Address</span> {{ UserData?.cAddress }}</li>
+      <li><span>E-mail</span>{{ UserData?.email }}</li>
+      <li><span>Phone </span>{{ UserData?.Mobile }}</li>
+      <li><span>Merital Status</span>{{ UserData?.MaritalStatus }}</li>
+      <li><span>Gender</span>{{ UserData?.gender }}</li>
+    </ul>
+  </div>
+  <div class="resume-section-content">
+    <h2 class="main-heading">Education</h2>
+    <!-- <ng-template *ngIf="EducationDetails?.length"> -->
+    <div *ngFor="let ed of EducationDetails">
+      <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="flex-grow-1">
+          <h3 class="mb-0 edu-titele"> University : {{ ed?.university}}</h3>
+          <div class="subheading mb-3"> Course : {{ ed?.course }}</div>
+          <div class="edu-detail"> CPA : {{ ed?.cpa }} </div>
+          <!-- <p> CPA : {{ ed["cpa"] }} </p> -->
+        </div>
+        <div class="flex-shrink-0"><span class="text-primary">Passing Year : {{ ed.passingYear }}</span></div>
+      </div>
+    </div>
+    <!-- </ng-template> -->
+    <!-- <div *ngIf="JobExperience.length"> -->
+    <h2 class="main-heading">Job Experience</h2>
+    <div *ngFor="let field of JobExperience">
+      <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="flex-grow-1">
+          <h3 class="mb-0 edu-titele"> Position : {{ field.position}}</h3>
+          <div class="subheading mb-3"> Company : {{ field.companyName }}</div>
+          <div class="edu-detail"> From : {{ field.from }} </div>
+          <div class="edu-detail"> To : {{ field.to }} </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+    <h2 class="main-heading">Languages</h2>
+    <div *ngFor="let lang of UserData?.languages">
+      <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="flex-grow-1">
+          <!-- <h3 class="mb-0 edu-titele"> Position : {{ field["position"]}}</h3> -->
+          <!-- <div class="subheading mb-3"> {{ lang.name }}</div> -->
+          <div class="edu-detail">{{ lang.name }}</div>
+          <!-- <div class="edu-detail"> To : {{ ed["to"] }} </div> -->
+        </div>
+        <!-- <div class="flex-shrink-0"><span class="text-primary">Passing Year : {{ ed["passingYear"] }}</span></div> -->
+      </div>
+    </div>
+    <div *ngIf="cvfile; else noCv">
+      <button (click)="cvLogic();"> Download CV </button>
+    </div>
+    <ng-template #noCv>
+      <strong>No cv is uploaded </strong>
+    </ng-template>
+  </div>
+</div>
+<!--
 <div>
   <div>
     Id : {{ UserData?._id }}
@@ -88,9 +159,12 @@
   </div>
   <div>
     <p><strong> Language :</strong></p>
-    <div *ngFor="let language of UserData?.languages;">
-      {{ language }}
+    <div *ngIf="UserData?.languages.length">
+      <div *ngFor="let language of UserData?.languages;">
+        {{ language["name"] }}
+      </div>
     </div>
+    <p *ngIf="!UserData?.languages.length"> No languages found </p>
     <div>
       PaymentID: {{ UserData?.transactionId }}
     </div>
@@ -102,3 +176,4 @@
     </ng-template>
   </div>
 </div>
+-->

@@ -30,6 +30,7 @@ export class EmployeeComponent implements OnInit {
   employeeList: [];
   isView: boolean = true;
   Employee: any;
+  deleteId;
   // private paginator: MatPaginator;
   // private sort: MatSort;
 
@@ -66,6 +67,24 @@ export class EmployeeComponent implements OnInit {
   */
 
   async ngOnInit() {
+
+    this.getData();
+    await this.EmploeeFormBulder();
+
+    // console.log(this.paginator);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // this.dataSource.filterPredicate = (data, filter) => {
+    //   console.log("🚀 ~ file: employee.component.ts ~ line 59 ~ EmployeeComponent ~ ngOnInit ~ filter", filter)
+    //   return this.displayedColumns.some(ele => {
+    //     console.log("🚀 ~ file: employee.component.ts ~ line 60 ~ EmployeeComponent ~ ngOnInit ~ ele", data[ele])
+    //     return ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
+    //   });
+    // };
+
+  }
+
+  getData() {
     this.apiService.getData().subscribe((data: any) => {
       console.log("🚀 ~ file: employee.component.ts ~ line 67 ~ EmployeeComponent ~ this.apiService.getData ~ data", data);
       data.data.user.forEach((value, index) => {
@@ -84,21 +103,7 @@ export class EmployeeComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
-    await this.EmploeeFormBulder();
-
-    // console.log(this.paginator);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-    // this.dataSource.filterPredicate = (data, filter) => {
-    //   console.log("🚀 ~ file: employee.component.ts ~ line 59 ~ EmployeeComponent ~ ngOnInit ~ filter", filter)
-    //   return this.displayedColumns.some(ele => {
-    //     console.log("🚀 ~ file: employee.component.ts ~ line 60 ~ EmployeeComponent ~ ngOnInit ~ ele", data[ele])
-    //     return ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
-    //   });
-    // };
-
   }
-
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
@@ -177,20 +182,30 @@ export class EmployeeComponent implements OnInit {
 
 
   async onDelete(row) {
+    console.log(row)
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '450px';
     dialogConfig.height = '210px';
     this._dialog.open(this.employeeDeleteDialog, dialogConfig);
+    this.deleteId = row._id;
   }
 
   async confirmDelete(row) {
     this._dialog.closeAll();
+    this.deleteEmployee();
   }
 
-  deleteEmployee(row) {
-    this.employeeList.splice(parseInt(row.Id));
+  deleteEmployee() {
+    this.apiService.deleteCandidate(this.deleteId).subscribe(
+      data => {
+        if (data) {
+          console.log(data.success);
+          this.getData();
+        }
+      },
+      error => console.log(error)
+    )
   }
 }
-

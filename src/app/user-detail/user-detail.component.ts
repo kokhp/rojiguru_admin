@@ -10,7 +10,7 @@ import { ApiService } from '../api.service';
 export class UserDetailComponent implements OnInit {
   id;
   UserData;
-  EducationDetails;
+  EducationDetails = [];
   JobExperience;
   edFields = ['Course', 'Year', 'CGP', 'University'];
   cvfile: string;
@@ -43,14 +43,17 @@ export class UserDetailComponent implements OnInit {
       delete this.UserData.createdAt;
       delete this.UserData.updatedAt;
       for (let field in this.UserData) {
-        if (field === "cv" || field === "languages" || field === "_id" || field === "dob") continue;
-        this.UserData[field] = JSON.parse(this.UserData[field])
+        console.log(field, this.UserData[field]);
+        if (field === "cv" || field === "_id" || field === "dob") continue;
+        // this.UserData[field] = this.UserData[field] ? JSON.parse(this.UserData[field]) : this.UserData.field;
+        this.UserData[field] = JSON.parse(this.UserData[field]);
       }
-      console.log(this.UserData)
+
       this.UserData.dob = this.UserData.dob.split("T")[0];
-      this.EducationDetails = this.UserData.education;
+      if (this.UserData.education) this.EducationDetails = this.UserData.education;
+      console.log("This is ed details", this.EducationDetails )
       this.JobExperience = this.UserData.jobexp;
-      this.UserData.languages = this.UserData.languages;
+      console.log(this.JobExperience);
       this.cvfile = this.UserData.cv ? this.UserData.name + '.' + this.UserData.cv.split('\\')[1].split('.')[1] : '';
 
     });

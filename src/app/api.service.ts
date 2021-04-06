@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApiService {
-  // url = 'http://rojiguru.com:8080'
-  url = 'http://localhost:8080'
+  url = 'http://rojiguru.com:8080'
+  // url = 'http://localhost:8080'
   constructor(private http: HttpClient) { }
 
   getData() {

@@ -8,10 +8,11 @@ import { DefaultModule } from './layouts/default/default.module';
 import { EmployeeComponent } from './modules/employee/employee/employee.component';
 import { MatButtonModule, MatCardModule, MatCheckboxModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule, MatNativeDateModule, MatPaginator, MatPaginatorModule, MatRadioModule, MatSelectModule, MatSortModule, MatTableModule, MatToolbarModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { LoginComponent } from './login/login.component';
+import { ApiService } from './api.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,13 @@ import { LoginComponent } from './login/login.component';
     MatInputModule,
     // MatPaginator
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

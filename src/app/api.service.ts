@@ -1,13 +1,17 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpInterceptor } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ApiService implements HttpInterceptor {
   url = 'http://rojiguru.com:8080'
   // url = 'http://localhost:8080'
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   getData() {
     const headers = new HttpHeaders(
@@ -56,7 +60,7 @@ export class ApiService {
     anchor.click();
   }
 
-  login(user) {
+  login(user?:object) {
     return this.http.post<any>(`${this.url}/api/users/login`, user);
   }
 
@@ -67,6 +71,22 @@ export class ApiService {
         'authorization': localStorage.getItem('token')
       }
     );
-    return this.http.delete<any>(`${this.url}/api/candidate/${id}`, {headers});
+    return this.http.delete<any>(`${this.url}/api/candidate/${id}`, { headers });
   }
+
+  intercept(req, next) {
+    let token = localStorage.getItem('token');
+    if (token) {
+      let tokenizedReq = req.clone({
+        setHeaders: {
+          'authorization': `${token}`
+        }
+      });
+      console.log("sending tokenized request");
+      return next.handle(tokenizedReq);
+    }
+    console.log("sending normal request");
+    return next.handle(req);
+  }
+
 }

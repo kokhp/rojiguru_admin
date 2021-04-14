@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginClick() {
+
     if (this.loginForm.invalid) {
       console.log("form is invalid")
       return;
@@ -37,6 +38,8 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.controls['email'].value,
       password: this.loginForm.controls['password'].value
     }
+
+    console.log(data);
 
     this.apiService.login(data)
       .subscribe(
@@ -48,9 +51,8 @@ export class LoginComponent implements OnInit {
             console.log(response.data.token)
           }
         },
-        error => console.log("Failed", error.statusText)
+        (error) => console.log("Failed", error.statusText)
       )
-
-    console.log(data);
   }
+
 }

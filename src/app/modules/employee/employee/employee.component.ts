@@ -31,40 +31,17 @@ export class EmployeeComponent implements OnInit {
   isView: boolean = true;
   Employee: any;
   deleteId;
-  // private paginator: MatPaginator;
-  // private sort: MatSort;
 
   constructor(private _datePipe: DatePipe, public _fb: FormBuilder, private _dialog: MatDialog, private apiService: ApiService,
     private router: Router) { }
 
-  displayedColumns: string[] = ['actions', 'id', 'name', 'gender', 'Mobile', 'cAddress', 'email', 'dob', 'MaritalStatus', 'view'];
+  displayedColumns: string[] = ['actions', 'id', 'name', 'gender', 'Mobile', 'cAddress', 'email', 'dob', 'MaritalStatus', 'createdAt', 'view'];
   dataSource;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator; // test paginator
   @ViewChild('employeeDeleteDialog', { static: false }) employeeDeleteDialog: TemplateRef<any>;
   @ViewChild('employeeDialog', { static: false }) employeeDialog: TemplateRef<any>;
-
-  /*
-  // new changed paginator and sort declared below
-  @ViewChild('MatSort', { static: true }) set matSort(ms: MatSort) {
-    this.sort = ms;
-    this.setDataSourceAttributes();
-  };
-  @ViewChild('MatPaginator', { static : true}) set MatPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.setDataSourceAttributes();
-  }
-  setDataSourceAttributes() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    console.log(this.paginator)
-    if (this.paginator && this.sort) {
-      this.applyFilter(' ');
-    }
-  }
-  */
 
   async ngOnInit() {
 
@@ -87,6 +64,7 @@ export class EmployeeComponent implements OnInit {
   getData() {
     this.apiService.getData().subscribe((data: any) => {
       console.log("🚀 ~ file: employee.component.ts ~ line 67 ~ EmployeeComponent ~ this.apiService.getData ~ data", data);
+
       data.data.user.forEach((value, index) => {
 
         data.data.user[index].name = value.name ? JSON.parse(value.name) : value.name;
@@ -96,9 +74,11 @@ export class EmployeeComponent implements OnInit {
         data.data.user[index].email = value.email ? JSON.parse(value.email) : value.email;
         data.data.user[index].Mobile = value.Mobile ? JSON.parse(value.Mobile) : value.Mobile;
         data.data.user[index].MaritalStatus = value.MaritalStatus ? JSON.parse(value.MaritalStatus) : value.MaritalStatus;
+        data.data.user[index].createdAt = value.createdAt;
         data.data.user[index].index = index;
 
-      })
+      });
+
       this.dataSource = new MatTableDataSource<Employee>(data.data.user);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -114,13 +94,14 @@ export class EmployeeComponent implements OnInit {
     { "label": "Gujarati" },
     { "label": "Marathi" },
     { "label": "Urdu" }
-  ]
+  ];
+
   Education: any = [
     { "label": "MCA" },
     { "label": "BE" },
     { "label": "MSC(IT)" },
     { "label": "BCA" },
-  ]
+  ];
 
   EmploeeFormBulder() {
     this.employeeForm = this._fb.group({
@@ -135,6 +116,7 @@ export class EmployeeComponent implements OnInit {
       language: [null],
       education: [null],
       MaritalStatus: [null],
+      createdAt: [null]
       // jobexp: [null],
     });
   }
@@ -143,6 +125,7 @@ export class EmployeeComponent implements OnInit {
     console.log("🚀 ~ file: employee.component.ts ~ line 106 ~ EmployeeComponent ~ view ~ id", id)
     this.router.navigate(['user-detail/', id])
   }
+
   onCencle() {
     this._dialog.closeAll();
     this.isView = true;
@@ -150,7 +133,6 @@ export class EmployeeComponent implements OnInit {
   }
 
   async onEdit(row) {
-
     this.isView = false;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -172,7 +154,6 @@ export class EmployeeComponent implements OnInit {
     this.f.cAddress.setValue(row.cAddress);
     this.f.email.setValue(row.email);
     this.f.dob.setValue(new Date(row.dob));
-
 
     this.f.language.setValue(row.language);
     this.f.education.setValue(row.education);

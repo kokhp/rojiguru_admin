@@ -50,11 +50,11 @@ import { ApiService } from './api.service';
     // MatPaginator
   ],
   providers: [DatePipe,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiService,
-      multi: true
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ApiService,
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent]
 })

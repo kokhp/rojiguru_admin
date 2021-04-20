@@ -16,7 +16,8 @@
   </mat-dialog-actions>
   -->
 </ng-template>
-<div fxLayout fxLayoutAlign="center center">
+<div class="main-top-header">
+  <h4>Employee</h4>
   <mat-form-field fxFlex="40%">
     <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
@@ -187,8 +188,10 @@
 
       <ng-container matColumnDef="view">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>view
-        <th>
-          <a mat-cell *matCellDef="let element" (click)="view(element._id)"> View </a>
+        </th>
+          <td>
+            <a mat-cell *matCellDef="let element" (click)="view(element._id)"> View </a>
+          </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">

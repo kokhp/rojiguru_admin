@@ -13,10 +13,8 @@ export class AuthGuardGuard implements CanActivate {
   ) { }
   canActivate(
   ): boolean {
-    console.log("AuthGuard is called")
     const token = localStorage.getItem('token');
     if (token) {
-      console.log("returning true");
       return true;
       /*
       this.apiService.login().subscribe(
@@ -35,7 +33,6 @@ export class AuthGuardGuard implements CanActivate {
       */
     }
     else {
-      console.log("sending false")
       this.router.navigate([''])
       return false;
     }

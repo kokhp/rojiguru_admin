@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService implements HttpInterceptor {
+export class ApiService {
   url = 'http://rojiguru.com:8080'
   // url = 'http://localhost:8080'
   constructor(
@@ -55,17 +55,15 @@ export class ApiService implements HttpInterceptor {
     let url = window.URL.createObjectURL(blob);
     let anchor = document.createElement("a");
     anchor.download = filename;
-    console.log(filename);
     anchor.href = url;
     anchor.click();
   }
 
-  login(user?:object) {
+  login(user?: object) {
     return this.http.post<any>(`${this.url}/api/users/login`, user);
   }
 
   deleteCandidate(id) {
-    console.log("calling delete service");
     const headers = new HttpHeaders(
       {
         'authorization': localStorage.getItem('token')
@@ -74,6 +72,7 @@ export class ApiService implements HttpInterceptor {
     return this.http.delete<any>(`${this.url}/api/candidate/${id}`, { headers });
   }
 
+  /*
   intercept(req, next) {
     let token = localStorage.getItem('token');
     if (token) {
@@ -82,11 +81,10 @@ export class ApiService implements HttpInterceptor {
           'authorization': `${token}`
         }
       });
-      console.log("sending tokenized request");
       return next.handle(tokenizedReq);
     }
-    console.log("sending normal request");
     return next.handle(req);
   }
+  */
 
 }

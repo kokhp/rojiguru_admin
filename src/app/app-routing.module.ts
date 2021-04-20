@@ -10,7 +10,7 @@ const routes: Routes = [{
   component: LoginComponent, // it was employee component before here
 },
 {
-  path: 'employee',
+  path: 'candidates',
   component: EmployeeComponent,
   canActivate: [AuthGuardGuard],
 },

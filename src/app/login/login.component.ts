@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -30,28 +32,25 @@ export class LoginComponent implements OnInit {
   onLoginClick() {
 
     if (this.loginForm.invalid) {
-      console.log("form is invalid")
       return;
     }
-    console.log(this.loginForm.controls);
     const data = {
       email: this.loginForm.controls['email'].value,
       password: this.loginForm.controls['password'].value
     }
 
-    console.log(data);
-
     this.apiService.login(data)
       .subscribe(
         response => {
           if (response) {
-            console.log("Success!", response);
+            this.toastr.success('Loggedin successfully')
             localStorage.setItem('token', response.data.token);
-            this.router.navigate(['/employee'])
-            console.log(response.data.token)
+            this.router.navigate(['/candidates'])
           }
         },
-        (error) => console.log("Failed", error.statusText)
+        (error) => {
+          this.toastr.error(error.error.errorMessage);
+        }
       )
   }
 

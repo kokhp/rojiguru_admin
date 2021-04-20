@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { LoginComponent } from './login/login.component';
 import { ApiService } from './api.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ApiService } from './api.service';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    ToastrModule.forRoot(),
     // MatPaginator
   ],
   providers: [DatePipe,

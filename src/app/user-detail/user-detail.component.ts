@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -15,7 +16,11 @@ export class UserDetailComponent implements OnInit {
   edFields = ['Course', 'Year', 'CGP', 'University'];
   cvfile: string;
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {
+  constructor(
+    private apiService: ApiService,
+    private route: ActivatedRoute,
+    private toastr: ToastrService
+  ) {
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -43,7 +48,6 @@ export class UserDetailComponent implements OnInit {
       delete this.UserData.createdAt;
       delete this.UserData.updatedAt;
       for (let field in this.UserData) {
-        console.log(field, this.UserData[field]);
         if (field === "cv" || field === "_id" || field === "dob") continue;
         // this.UserData[field] = this.UserData[field] ? JSON.parse(this.UserData[field]) : this.UserData.field;
         this.UserData[field] = JSON.parse(this.UserData[field]);
@@ -51,11 +55,13 @@ export class UserDetailComponent implements OnInit {
 
       this.UserData.dob = this.UserData.dob.split("T")[0];
       if (this.UserData.education) this.EducationDetails = this.UserData.education;
-      console.log("This is ed details", this.EducationDetails )
       this.JobExperience = this.UserData.jobexp;
-      console.log(this.JobExperience);
       this.cvfile = this.UserData.cv ? this.UserData.name + '.' + this.UserData.cv.split('\\')[1].split('.')[1] : '';
 
-    });
+    },
+      (error) => {
+        this.toastr.error(error.error.errorMessage);
+      }
+    );
   }
 }

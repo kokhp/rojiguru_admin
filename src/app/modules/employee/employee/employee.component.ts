@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angul
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/api.service';
 export interface Employee {
   id: number;
@@ -32,8 +33,14 @@ export class EmployeeComponent implements OnInit {
   Employee: any;
   deleteId;
 
-  constructor(private _datePipe: DatePipe, public _fb: FormBuilder, private _dialog: MatDialog, private apiService: ApiService,
-    private router: Router) { }
+  constructor(
+    private _datePipe: DatePipe,
+    public _fb: FormBuilder,
+    private _dialog: MatDialog,
+    private apiService: ApiService,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   displayedColumns: string[] = ['actions', 'id', 'name', 'gender', 'Mobile', 'cAddress', 'email', 'dob', 'MaritalStatus', 'createdAt', 'view'];
   dataSource;
@@ -48,13 +55,10 @@ export class EmployeeComponent implements OnInit {
     this.getData();
     await this.EmploeeFormBulder();
 
-    // console.log(this.paginator);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
     // this.dataSource.filterPredicate = (data, filter) => {
-    //   console.log("🚀 ~ file: employee.component.ts ~ line 59 ~ EmployeeComponent ~ ngOnInit ~ filter", filter)
     //   return this.displayedColumns.some(ele => {
-    //     console.log("🚀 ~ file: employee.component.ts ~ line 60 ~ EmployeeComponent ~ ngOnInit ~ ele", data[ele])
     //     return ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
     //   });
     // };
@@ -63,7 +67,6 @@ export class EmployeeComponent implements OnInit {
 
   getData() {
     this.apiService.getData().subscribe((data: any) => {
-      console.log("🚀 ~ file: employee.component.ts ~ line 67 ~ EmployeeComponent ~ this.apiService.getData ~ data", data);
 
       data.data.user.forEach((value, index) => {
 
@@ -122,7 +125,6 @@ export class EmployeeComponent implements OnInit {
   }
 
   view(id) {
-    console.log("🚀 ~ file: employee.component.ts ~ line 106 ~ EmployeeComponent ~ view ~ id", id)
     this.router.navigate(['user-detail/', id])
   }
 
@@ -163,7 +165,6 @@ export class EmployeeComponent implements OnInit {
 
 
   async onDelete(row) {
-    console.log(row)
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -182,11 +183,13 @@ export class EmployeeComponent implements OnInit {
     this.apiService.deleteCandidate(this.deleteId).subscribe(
       data => {
         if (data) {
-          console.log(data.success);
+          this.toastr.success('User deleted Successfully');
           this.getData();
         }
       },
-      error => console.log(error)
+      error => {
+        this.toastr.error(error.error.errorMessage);
+      }
     )
   }
 }
